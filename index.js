@@ -70,7 +70,7 @@ function uploadFile(file) {
   li.classList.add("in-prog");
   li.innerHTML = `
     <div class="col">
-      <img src="icons/${iconSelector(file.type)}" alt="">
+      // <img src="icons/${iconSelector(file.type)}" alt="">
     </div>
     <div class="col">
       <div class="file-name">
@@ -106,7 +106,7 @@ function uploadFile(file) {
   };
 
   // Update the server endpoint URL that supports the POST method
-  http.open("POST", "http://localhost:3000", true);
+  http.open("POST", "http://localhost:3000/", true);
   http.send(data);
 
   li.querySelector(".cross").onclick = () => http.abort();
