@@ -11,27 +11,26 @@
 
 <body>
     <div class="container">
-        <div class="header-section">
-            <h1>Upload Files</h1>
-            <p>Upload files you want to share with your team members.</p>
-            <p>PDF, Images & Videos are allowed.</p>
+        <div class="container__section">
+            <h1 class="container__section-heading">Upload Files</h1>
+            <p class="container__section-description">Upload files you want to share with your team members.</p>
+            <p class="container__section-description">PDF, Images & Videos are allowed.</p>
         </div>
-        <div class="drop-section">
-            <div class="col">
-                <div class="cloud-icon">
-                </div>
-                <span>Drag & Drop your files here</span>
-                <span>OR</span>
-                <button class="file-selector">Browse Files</button>
-                <input type="file" class="file-selector-input" multiple>
+        <div class="container__cart">
+            <div class="container__coldrap">
+                <div class="container__coldrap-cloud-icon"></div>
+                <span class="container__coldrap-message">Drag & Drop your files here</span>
+                <span class="container__coldrap-message">OR</span>
+                <button class="container__coldrap-file-selector">Browse Files</button>
+                <input type="file" class="container__coldrap-file-selector-input" multiple>
             </div>
-            <div class="col">
-                <div class="drop-here">Drop Here</div>
+            <div class="container__cart-col">
+                <div class="container__cart-drop-here">Drop Here</div>
             </div>
         </div>
-        <div class="list-section">
-            <div class="list-title">Uploaded Files</div>
-            <div class="list"></div>
+        <div class="container__list-section">
+            <div class="container__list-title">Uploaded Files</div>
+            <div class="container__list"></div>
         </div>
     </div>
     <script src="index.js"></script>

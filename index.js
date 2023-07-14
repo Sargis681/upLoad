@@ -1,8 +1,12 @@
-const dropArea = document.querySelector(".drop-section");
-const listSection = document.querySelector(".list-section");
-const listContainer = document.querySelector(".list");
-const fileSelector = document.querySelector(".file-selector");
-const fileSelectorInput = document.querySelector(".file-selector-input");
+const dropArea = document.querySelector(".container__cart");
+const listSection = document.querySelector(".container__list-section");
+const listContainer = document.querySelector(".container__list");
+const fileSelector = document.querySelector(
+  ".container__coldrap-file-selector"
+);
+const fileSelectorInput = document.querySelector(
+  ".container__coldrap-file-selector-input"
+);
 
 let files = []; // Array to store all the selected files
 
