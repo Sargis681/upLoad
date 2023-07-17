@@ -8,18 +8,15 @@ const fileSelectorInput = document.querySelector(
   ".container__coldrap-file-selector-input"
 );
 
-let files = []; // Array to store all the selected files
+let files = []; 
 
-// Upload files with browse button
 fileSelector.onclick = () => fileSelectorInput.click();
 
 fileSelectorInput.onchange = () => {
   files = [...fileSelectorInput.files];
-  const imageFiles = files.filter((file) => typeValidation(file.type));
   uploadFilesInBatches();
 };
 
-// When a file is over the drag area
 dropArea.ondragover = (e) => {
   e.preventDefault();
   [...e.dataTransfer.items].forEach((item) => {
@@ -29,12 +26,10 @@ dropArea.ondragover = (e) => {
   });
 };
 
-// When a file leaves the drag area
 dropArea.ondragleave = () => {
   dropArea.classList.remove("drag-over-effect");
 };
 
-// When a file is dropped on the drag area
 dropArea.ondrop = (e) => {
   e.preventDefault();
   dropArea.classList.remove("drag-over-effect");
@@ -45,18 +40,15 @@ dropArea.ondrop = (e) => {
       }
       return result;
     }, []);
-    const imageFiles = files.filter((file) => typeValidation(file.type));
     uploadFilesInBatches();
   } else {
     files = [...e.dataTransfer.files].filter((file) =>
       typeValidation(file.type)
     );
-    const imageFiles = files.filter((file) => typeValidation(file.type));
     uploadFilesInBatches();
   }
 };
 
-// Check the file type
 function typeValidation(type) {
   const splitType = type.split("/")[0];
   if (
@@ -69,9 +61,8 @@ function typeValidation(type) {
   return false;
 }
 
-// Upload files in batches
 function uploadFilesInBatches() {
-  const batchSize = 3; // Number of files to upload in each batch
+  const batchSize = 3; 
   const totalBatches = Math.ceil(files.length / batchSize);
   let currentBatch = 0;
 
@@ -170,7 +161,7 @@ function uploadFilesInBatches() {
         }
       };
 
-      const serverEndpoint = "http://localhost:8080"; // Replace with the correct server endpoint
+      const serverEndpoint = "http://localhost:8080"; 
 
       http.open("POST", serverEndpoint, true);
 
