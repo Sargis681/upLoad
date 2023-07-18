@@ -173,8 +173,3 @@ function uploadFilesInBatches() {
 
   uploadBatch();
 }
-
-function typeValidation(fileType) {
-  // Add your desired file type validation logic here
-  return true;
-}
