@@ -7,8 +7,8 @@ const fileSelector = document.querySelector(
 const fileSelectorInput = document.querySelector(
   ".container__coldrap-file-selector-input"
 );
-
-let files = []; 
+let rit = document.querySelector(".container__list-title");
+let files = [];
 
 fileSelector.onclick = () => fileSelectorInput.click();
 
@@ -32,6 +32,7 @@ dropArea.ondragleave = () => {
 
 dropArea.ondrop = (e) => {
   e.preventDefault();
+
   dropArea.classList.remove("drag-over-effect");
   if (e.dataTransfer.items) {
     files = [...e.dataTransfer.items].reduce((result, item) => {
@@ -49,20 +50,11 @@ dropArea.ondrop = (e) => {
   }
 };
 
-function typeValidation(type) {
-  const splitType = type.split("/")[0];
-  if (
-    type === "application/pdf" ||
-    splitType === "image" ||
-    splitType === "video"
-  ) {
-    return true;
-  }
-  return false;
-}
-
 function uploadFilesInBatches() {
-  const batchSize = 3; 
+  const batchSize = 3;
+  rit.append(files.length + "/");
+  console.log(files.length);
+
   const totalBatches = Math.ceil(files.length / batchSize);
   let currentBatch = 0;
 
@@ -161,7 +153,7 @@ function uploadFilesInBatches() {
         }
       };
 
-      const serverEndpoint = "http://localhost:8080"; 
+      const serverEndpoint = "http://localhost:8080";
 
       http.open("POST", serverEndpoint, true);
 
@@ -180,4 +172,9 @@ function uploadFilesInBatches() {
   }
 
   uploadBatch();
+}
+
+function typeValidation(fileType) {
+  // Add your desired file type validation logic here
+  return true;
 }
