@@ -7,6 +7,7 @@ const fileSelector = document.querySelector(
 const fileSelectorInput = document.querySelector(
   ".container__coldrap-file-selector-input"
 );
+lengthCo = 0;
 let rit = document.querySelector(".container__list-title");
 let files = [];
 
@@ -60,6 +61,7 @@ dropArea.ondrop = (e) => {
     files = [...e.dataTransfer.files].filter((file) =>
       typeValidation(file.type)
     );
+    console.log(files);
     displayFiles();
 
     if (!isUploading) {
@@ -72,7 +74,6 @@ let isUploading = false;
 
 function displayFiles() {
   listSection.style.display = "block";
-  // listContainer.innerHTML = "";
 
   files.forEach((file) => {
     const li = document.createElement("li");
@@ -108,9 +109,9 @@ function uploadFilesInBatches() {
   isUploading = true;
   const batchSize = 3;
   rit.append(files.length + "/");
-  console.log(files.length);
 
   const totalBatches = Math.ceil(files.length / batchSize);
+  console.log(totalBatches);
   let currentBatch = 0;
 
   function uploadBatch() {
@@ -118,15 +119,16 @@ function uploadFilesInBatches() {
     const end = Math.min(start + batchSize, files.length);
     const batchFiles = files.slice(start, end);
 
-    console.log(batchFiles);
-    console.log(start);
+    lengthCo = lengthCo + batchFiles.length;
+    console.log(lengthCo);
+
     if (batchFiles.length === 0) {
       console.log("All files uploaded successfully.");
-      isUploading = false;
-      return;
+      // isUploading = false;
     }
 
     let completedCount = 0;
+
     let hasError = false;
 
     batchFiles.forEach((file) => {
@@ -172,6 +174,7 @@ function uploadFilesInBatches() {
                 uploadBatch();
               } else {
                 console.log("All files uploaded successfully.");
+                uploadFilesInBatches();
                 isUploading = false;
               }
             }
@@ -204,7 +207,5 @@ function uploadFilesInBatches() {
 }
 
 function typeValidation(fileType) {
-  // Replace with your own file type validation logic
-  // Example: Only allow image files
   return fileType.startsWith("image/");
 }
