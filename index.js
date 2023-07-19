@@ -14,6 +14,7 @@ fileSelector.onclick = () => fileSelectorInput.click();
 
 fileSelectorInput.onchange = () => {
   files = [...fileSelectorInput.files];
+  console.log(files);
   displayFiles();
 
   if (!isUploading) {
@@ -67,7 +68,6 @@ dropArea.ondrop = (e) => {
   }
 };
 
-let a = 0;
 let isUploading = false;
 
 function displayFiles() {
@@ -75,7 +75,6 @@ function displayFiles() {
   // listContainer.innerHTML = "";
 
   files.forEach((file) => {
-    a = a + 1;
     const li = document.createElement("li");
     li.classList.add("in-prog");
     li.innerHTML = `
@@ -102,11 +101,10 @@ function displayFiles() {
       </div>
     `;
     listContainer.appendChild(li);
-    console.log(a);
   });
 }
 
-async function uploadFilesInBatches() {
+function uploadFilesInBatches() {
   isUploading = true;
   const batchSize = 3;
   rit.append(files.length + "/");
@@ -115,7 +113,7 @@ async function uploadFilesInBatches() {
   const totalBatches = Math.ceil(files.length / batchSize);
   let currentBatch = 0;
 
-  async function uploadBatch() {
+  function uploadBatch() {
     const start = currentBatch * batchSize;
     const end = Math.min(start + batchSize, files.length);
     const batchFiles = files.slice(start, end);
@@ -131,93 +129,78 @@ async function uploadFilesInBatches() {
     let completedCount = 0;
     let hasError = false;
 
-    await Promise.all(
-      batchFiles.map(async (file) => {
-        console.log("12");
-        let li;
-        const fileElements = listContainer.getElementsByClassName("name");
-        for (let i = 0; i < fileElements.length; i++) {
-          if (fileElements[i].textContent === file.name) {
-            li = fileElements[i].closest("li");
-            break;
-          }
+    batchFiles.forEach((file) => {
+      let li;
+      const fileElements = listContainer.getElementsByClassName("name");
+      for (let i = 0; i < fileElements.length; i++) {
+        if (fileElements[i].textContent === file.name) {
+          li = fileElements[i].closest("li");
+          break;
         }
+      }
 
-        if (!li) {
-          return;
-        }
+      if (!li) {
+        return;
+      }
 
-        li.classList.add("in-prog");
+      li.classList.add("in-prog");
 
-        try {
-          await uploadFile(file, li);
-          console.log("File uploaded successfully.");
-        } catch (error) {
-          console.log("An error occurred during file upload. Error:", error);
-          hasError = true;
-        }
+      const xhr = new XMLHttpRequest();
+      const data = new FormData();
+      data.append("file", file);
 
-        completedCount++;
+      xhr.upload.onprogress = (e) => {
+        const percentComplete = (e.loaded / e.total) * 100;
+        li.querySelector(".file-name span").innerHTML =
+          Math.round(percentComplete) + "%";
+        li.querySelector(".file-progress span").style.width =
+          percentComplete + "%";
+      };
 
-        if (completedCount === batchFiles.length) {
-          if (hasError) {
-            console.log("Batch upload failed. Retrying...");
-            uploadBatch();
-          } else {
-            currentBatch++;
-            if (currentBatch < totalBatches) {
+      xhr.onload = () => {
+        if (xhr.status === 200) {
+          li.classList.add("complete");
+          completedCount++;
+
+          if (completedCount === batchFiles.length) {
+            if (hasError) {
+              console.log("Batch upload failed. Retrying...");
               uploadBatch();
             } else {
-              console.log("All files uploaded successfully.");
-              isUploading = false;
+              currentBatch++;
+              if (currentBatch < totalBatches) {
+                uploadBatch();
+              } else {
+                console.log("All files uploaded successfully.");
+                isUploading = false;
+              }
             }
           }
+        } else {
+          console.log(`File upload failed with status: ${xhr.status}`);
+          hasError = true;
         }
-      })
-    );
+      };
+
+      xhr.onerror = () => {
+        console.log("An error occurred during file upload.");
+        hasError = true;
+      };
+
+      const serverEndpoint = "http://localhost:8080";
+      xhr.open("POST", serverEndpoint, true);
+
+      li.querySelector(".cross").onclick = () => {
+        xhr.abort();
+        li.remove();
+        console.log("File upload aborted.");
+      };
+
+      xhr.send(data);
+    });
   }
 
   uploadBatch();
-}
-
-function uploadFile(file, li) {
-  return new Promise((resolve, reject) => {
-    const http = new XMLHttpRequest();
-    const data = new FormData();
-    data.append("file", file);
-
-    http.upload.onprogress = (e) => {
-      const percentComplete = (e.loaded / e.total) * 100;
-      li.querySelector(".file-name span").innerHTML =
-        Math.round(percentComplete) + "%";
-      li.querySelector(".file-progress span").style.width =
-        percentComplete + "%";
-    };
-
-    http.onload = () => {
-      if (http.status === 200) {
-        li.classList.add("complete");
-        resolve();
-      } else {
-        reject(new Error(`File upload failed with status: ${http.status}`));
-      }
-    };
-
-    http.onerror = () => {
-      reject(new Error("An error occurred during file upload."));
-    };
-
-    const serverEndpoint = "http://localhost:8080";
-    http.open("POST", serverEndpoint, true);
-
-    li.querySelector(".cross").onclick = () => {
-      http.abort();
-      li.remove();
-      reject(new Error("File upload aborted."));
-    };
-
-    http.send(data);
-  });
 }
 
 function typeValidation(fileType) {
