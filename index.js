@@ -7,8 +7,8 @@ const fileSelector = document.querySelector(
 const fileSelectorInput = document.querySelector(
   ".container__coldrap-file-selector-input"
 );
-lengthCo = 0;
-let rit = document.querySelector(".container__list-title");
+
+// let lengthCo = 0;
 let files = [];
 
 fileSelector.onclick = () => fileSelectorInput.click();
@@ -46,12 +46,9 @@ dropArea.ondrop = (e) => {
   dropArea.classList.remove("drag-over-effect");
 
   if (e.dataTransfer.items) {
-    files = [...e.dataTransfer.items].reduce((result, item) => {
-      if (item.kind === "file" && typeValidation(item.type)) {
-        result.push(item.getAsFile());
-      }
-      return result;
-    }, []);
+    files = [...e.dataTransfer.items]
+      .filter((item) => item.kind === "file" && typeValidation(item.type))
+      .map((item) => item.getAsFile());
     displayFiles();
 
     if (!isUploading) {
@@ -74,6 +71,8 @@ let isUploading = false;
 
 function displayFiles() {
   listSection.style.display = "block";
+
+  // listContainer.innerHTML = ""; // Clear the listContainer before appending new files
 
   files.forEach((file) => {
     const li = document.createElement("li");
@@ -105,33 +104,34 @@ function displayFiles() {
   });
 }
 
-function uploadFilesInBatches() {
+function uploadFilesInBatches(a) {
   isUploading = true;
   const batchSize = 3;
-  rit.append(files.length + "/");
 
   const totalBatches = Math.ceil(files.length / batchSize);
   console.log(totalBatches);
+
   let currentBatch = 0;
 
   function uploadBatch() {
     const start = currentBatch * batchSize;
     const end = Math.min(start + batchSize, files.length);
     const batchFiles = files.slice(start, end);
+    console.log("qcec");
 
-    lengthCo = lengthCo + batchFiles.length;
-    console.log(lengthCo);
+    // if (a) {
+    //   currentBatch = a;
+    //   console.log(a);
+    // }
 
     if (batchFiles.length === 0) {
       console.log("All files uploaded successfully.");
-      // isUploading = false;
     }
 
     let completedCount = 0;
-
     let hasError = false;
 
-    batchFiles.forEach((file) => {
+    batchFiles.forEach((file, i) => {
       let li;
       const fileElements = listContainer.getElementsByClassName("name");
       for (let i = 0; i < fileElements.length; i++) {
@@ -167,15 +167,29 @@ function uploadFilesInBatches() {
           if (completedCount === batchFiles.length) {
             if (hasError) {
               console.log("Batch upload failed. Retrying...");
+              console.log("qceq");
               uploadBatch();
             } else {
+              if (fileElements.length > batchFiles.length) {
+                console.log(a);
+                // currentBatch = fileElements.length - batchFiles.length;
+                uploadFilesInBatches(fileElements.length);
+              }
+
+              console.log(currentBatch);
               currentBatch++;
               if (currentBatch < totalBatches) {
                 uploadBatch();
               } else {
                 console.log("All files uploaded successfully.");
-                uploadFilesInBatches();
                 isUploading = false;
+                console.log(
+                  batchFiles.length + "                " + "batchFiles"
+                );
+                console.log(
+                  fileElements.length + "              " + "fileElements"
+                );
+                console.log(files.length + "                " + "files");
               }
             }
           }
@@ -190,7 +204,7 @@ function uploadFilesInBatches() {
         hasError = true;
       };
 
-      const serverEndpoint = "http://localhost:8080";
+      const serverEndpoint = "http://localhost:8080"; // Replace with your server endpoint
       xhr.open("POST", serverEndpoint, true);
 
       li.querySelector(".cross").onclick = () => {
