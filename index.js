@@ -47,17 +47,17 @@ dropArea.ondrop = (e) => {
 
   if (e.dataTransfer.items) {
     files = [...e.dataTransfer.items]
-      .filter((item) => item.kind === "file" && typeValidation(item.type))
-      .map((item) => item.getAsFile());
+      // .filter((item) => item.kind === "file" && typeValidation(item.type))
+      // .map((item) => item.getAsFile());
     displayFiles();
 
     if (!isUploading) {
       uploadFilesInBatches();
     }
-  } else {
-    files = [...e.dataTransfer.files].filter((file) =>
-      typeValidation(file.type)
-    );
+  // } else {
+  //   files = [...e.dataTransfer.files].filter((file) =>
+  //     typeValidation(file.type)
+  //   );
     console.log(files);
     displayFiles();
 
