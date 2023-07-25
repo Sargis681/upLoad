@@ -1,10 +1,10 @@
-/* optional google fonts */
+/* Optional Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap');
 
 body {
     background-color: #7494EC;
     padding: 30px;
-    margin: 0px;
+    margin: 0;
 }
 
 * {
@@ -22,26 +22,26 @@ body {
     box-shadow: rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset, rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
 }
 
-.header-section {
-    padding: 25px 0px;
+.container__section {
+    padding: 25px 0;
 }
 
-.header-section h1 {
+.container__section h1 {
     font-weight: 500;
     font-size: 1.7rem;
     text-transform: uppercase;
     color: #707EA0;
-    margin: 0px;
+    margin: 0;
     margin-bottom: 8px;
 }
 
-.header-section p {
+.container__section p {
     margin: 5px;
     font-size: 0.95rem;
     color: #707EA0;
 }
 
-.drop-section {
+.container__cart {
     min-height: 250px;
     border: 1px dashed #A8B3E3;
     background-image: linear-gradient(180deg, white, #F1F6FF);
@@ -50,7 +50,7 @@ body {
     position: relative;
 }
 
-.drop-section div.col:first-child {
+.container__cart div.col:first-child {
     opacity: 1;
     visibility: visible;
     transition-duration: 0.2s;
@@ -59,15 +59,15 @@ body {
     margin: auto;
 }
 
-.drop-section div.col:last-child {
+.container__cart div.col:last-child {
     font-size: 40px;
     font-weight: 700;
     color: #c0cae1;
     position: absolute;
-    top: 0px;
-    bottom: 0px;
-    left: 0px;
-    right: 0px;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
     margin: auto;
     width: 200px;
     height: 55px;
@@ -78,7 +78,7 @@ body {
     transition-duration: 0.2s;
 }
 
-/* we will use "drag-over-effect" class in js */
+/* We will use the "drag-over-effect" class in JavaScript */
 .drag-over-effect div.col:first-child {
     opacity: 0;
     visibility: hidden;
@@ -92,20 +92,20 @@ body {
     transform: scale(1);
 }
 
-.drop-section .cloud-icon {
+.container__cart .container__coldrap-cloud-icon {
     margin-top: 25px;
     margin-bottom: 20px;
 }
 
-.drop-section span,
-.drop-section button {
+.container__cart span,
+.container__cart button {
     display: block;
     margin: auto;
     color: #707EA0;
     margin-bottom: 10px;
 }
 
-.drop-section button {
+.container__cart button {
     color: white;
     background-color: #5874C6;
     border: none;
@@ -117,53 +117,53 @@ body {
     box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
 }
 
-.drop-section input {
+.container input {
     display: none;
 }
 
-.list-section {
+.container__list-section {
     display: none;
     text-align: left;
-    margin: 0px 35px;
+    margin: 0 35px;
     padding-bottom: 20px;
 }
 
-.list-section .list-title {
+.container__list-title {
     font-size: 0.95rem;
     color: #707EA0;
 }
 
-.list-section li {
+.container__list li {
     display: flex;
-    margin: 15px 0px;
+    margin: 15px 0;
     padding-top: 4px;
     padding-bottom: 2px;
     border-radius: 8px;
     transition-duration: 0.2s;
 }
 
-.list-section li:hover {
-    box-shadow: #E3EAF9 0px 0px 4px 0px, #E3EAF9 0px 12px 16px 0px;
+.container__list li:hover {
+    box-shadow: #E3EAF9 0 0 4px 0, #E3EAF9 0 12px 16px 0;
 }
 
-.list-section li .col {
-    flex: .1;
+.container__list li .col {
+    flex: 0.1;
 }
 
-.list-section li .col:nth-child(1) {
-    flex: .15;
+.container__list li .col:nth-child(1) {
+    flex: 0.15;
     text-align: center;
 }
 
-.list-section li .col:nth-child(2) {
-    flex: .75;
+.container__list li .col:nth-child(2) {
+    flex: 0.75;
     text-align: left;
     font-size: 0.9rem;
     color: #3e4046;
     padding: 8px 10px;
 }
 
-.list-section li .col:nth-child(2) div.name {
+.container__list li .col:nth-child(2) div.name {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -171,12 +171,12 @@ body {
     display: inline-block;
 }
 
-.list-section li .col .file-name span {
+.container__list li .col .file-name span {
     color: #707EA0;
     float: right;
 }
 
-.list-section li .file-progress {
+.container__list li .file-progress {
     width: 100%;
     height: 5px;
     margin-top: 8px;
@@ -184,7 +184,7 @@ body {
     background-color: #dee6fd;
 }
 
-.list-section li .file-progress span {
+.container__list li .file-progress span {
     display: block;
     width: 0%;
     height: 100%;
@@ -193,14 +193,14 @@ body {
     transition-duration: 0.4s;
 }
 
-.list-section li .col .file-size {
+.container__list li .col .file-size {
     font-size: 0.75rem;
     margin-top: 3px;
     color: #707EA0;
 }
 
-.list-section li .col svg.cross,
-.list-section li .col svg.tick {
+.container__list li .col svg.cross,
+.container__list li .col svg.tick {
     fill: #8694d2;
     background-color: #dee6fd;
     position: relative;
@@ -210,18 +210,18 @@ body {
     border-radius: 50%;
 }
 
-.list-section li .col svg.tick {
+.container__list li .col svg.tick {
     fill: #50a156;
     background-color: transparent;
 }
 
-.list-section li.complete span,
-.list-section li.complete .file-progress,
-.list-section li.complete svg.cross {
+.container__list li.complete span,
+.container__list li.complete .file-progress,
+.container__list li.complete svg.cross {
     display: none;
 }
 
-.list-section li.in-prog .file-size,
-.list-section li.in-prog svg.tick {
+.container__list li.in-prog .file-size,
+.container__list li.in-prog svg.tick {
     display: none;
 }
